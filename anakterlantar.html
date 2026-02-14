@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Crew 🖤</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(180deg,#222,#555);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:#eee;
+}
+
+.phone{
+  width:360px;
+  max-width:95%;
+  background:#111;
+  border-radius:28px;
+  padding:22px;
+  box-shadow:0 22px 45px rgba(0,0,0,.5);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  animation:fade .8s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+h1{
+  text-align:center;
+  color:#bbb;
+  margin-bottom:12px;
+}
+
+#text{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:14.5px;
+  line-height:1.7;
+  color:#ddd;
+  padding:8px;
+  transition:opacity .4s ease;
+}
+
+img{
+  width:100%;
+  border-radius:18px;
+  margin-top:14px;
+  display:none;
+  box-shadow:0 14px 28px rgba(0,0,0,.7);
+}
+
+.photo-text{
+  text-align:center;
+  font-size:13px;
+  color:#ccc;
+  margin-top:6px;
+  display:none;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:15px;
+  margin-top:10px;
+  cursor:pointer;
+}
+
+#next{
+  background:#444;
+  color:#fff;
+}
+
+#dm{
+  display:none;
+  background:#666;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+  <div>
+    <h1>🖤 Our Crew 🖤</h1>
+    <div id="text"></div>
+
+    <img id="photo" src="" alt="squad photo">
+    <div id="photoText" class="photo-text"></div>
+  </div>
+
+  <div>
+    <button id="next">Next ➜</button>
+    <button id="dm" onclick="goDM()">Reply Elijah 🖤</button>
+  </div>
+</div>
+
+<script>
+const sweetTexts = [
+  "Hi, I’m Elijah 😌",
+  "I just wanna say…",
+  "I’ve survived this far,",
+  "and I hope one day to find a loving family. 🖤"
+];
+
+const siblings = [
+  {
+    name: "Amora",
+    img: "https://i.pinimg.com/736x/2b/34/ed/2b34edb2797afb37ef7e6936be9c213e.jpg",
+    caption: "Amora 😎 Drama queen tapi snack hunter sejati."
+  },
+  {
+    name: "Ayanna",
+    img: "https://i.pinimg.com/736x/ee/89/06/ee8906e5bf11d90e8738c99325873945.jpg",
+    caption: "Ayanna 🤓 Brainiac, tapi bisa nyomot fries lu juga."
+  },
+  {
+    name: "Jepran",
+    img: "https://i.pinimg.com/736x/91/cb/be/91cbbe81b8941ec68cded7c9ffe26bf3.jpg",
+    caption: "Jepran ⚡ Energi full, sampai ketiduran tiba-tiba. diare, suka bener diare 😅"
+  },
+  {
+    name: "Keanno",
+    img: "https://i.pinimg.com/736x/0a/68/53/0a6853709370a0d9bb1132c7d7fadcca.jpg",
+    caption: "Keanno 😏 Big bro vibes tapi prank level beginner. abangda ini lagi gamon :3"
+  },
+  {
+    name: "The Crew",
+    img: "https://i.pinimg.com/736x/05/81/a2/0581a286c53e2589613fb29efe1a3f12.jpg",
+    caption: "The whole crew 😎 Chaos + love combo! ayo mabar rosblok"
+  }
+];
+
+let stage = 0; // 0 = sweet text, 1 = sibling pages
+let sweetIndex = 0;
+let sibIndex = 0;
+
+const textEl = document.getElementById("text");
+const nextBtn = document.getElementById("next");
+const photo = document.getElementById("photo");
+const photoText = document.getElementById("photoText");
+const dmBtn = document.getElementById("dm");
+
+textEl.innerHTML = ""; // awal kosong
+
+nextBtn.onclick = () => {
+  if(stage === 0){
+    // show sweet text sequentially
+    if(sweetIndex < sweetTexts.length){
+      textEl.style.opacity = 0;
+      setTimeout(()=>{
+        textEl.innerHTML = sweetTexts[sweetIndex];
+        textEl.style.opacity = 1;
+        sweetIndex++;
+      }, 300);
+    } else {
+      // move to sibling stage
+      stage = 1;
+      textEl.style.opacity = 0;
+      setTimeout(()=>{
+        textEl.innerHTML = "Time to meet the crew! 😎";
+        textEl.style.opacity = 1;
+      }, 300);
+    }
+  } else if(stage === 1){
+    if(sibIndex < siblings.length){
+      const sib = siblings[sibIndex];
+      textEl.style.opacity = 0;
+      setTimeout(()=>{
+        photo.src = sib.img;
+        photo.style.display = "block";
+        photoText.innerHTML = sib.caption;
+        photoText.style.display = "block";
+        textEl.innerHTML = "Meet " + sib.name + " 😎";
+        textEl.style.opacity = 1;
+        sibIndex++;
+        if(sibIndex === siblings.length){
+          nextBtn.style.display = "none";
+          dmBtn.style.display = "block";
+        }
+      }, 300);
+    }
+  }
+};
+
+function goDM(){
+  const msg = encodeURIComponent(
+    "Hey! 🖤\n" +
+    "I just checked out the whole crew!\n" +
+    "Thanks for this, made me laugh 😂\n" +
+    "– Elijah"
+  );
+  window.open(
+    "https://www.instagram.com/direct/new/?username=drugstprn&text=" + msg,
+    "_blank"
+  );
+}
+</script>
+
+</body>
+</html>
